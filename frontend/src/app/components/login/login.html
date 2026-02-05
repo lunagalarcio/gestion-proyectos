@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iniciar Sesión</title>
+</head>
+<body>
+  <div class="container">
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="formulario">
+
+      <h2 class="titulo-form">Iniciar Sesión</h2>
+
+      <div class="campo">
+        <label for="correo">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+          </svg>
+          Correo
+        </label>
+        <input
+          type="email"
+          id="correo"
+          name="correo"
+          [(ngModel)]="correo"
+          required
+          placeholder="ejemplo@email.com"
+        />
+      </div>
+
+      <div class="campo">
+        <label for="password">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          Contraseña
+        </label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="password"
+          required
+          placeholder="Ingresa tu contraseña"
+        />
+      </div>
+
+      <button type="submit" [disabled]="loginForm.invalid">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14"></path>
+          <path d="M12 5l7 7-7 7"></path>
+        </svg>
+        Entrar
+      </button>
+
+      <p *ngIf="mensaje" class="mensaje">{{ mensaje }}</p>
+
+      <div class="footer-text">
+        <p>¿No tienes cuenta?
+          <a class="link-login" routerLink="/register">Regístrate aquí</a>
+        </p>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
+

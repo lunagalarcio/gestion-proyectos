@@ -1,0 +1,75 @@
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Gestión de Gastos</h2>
+
+  <!-- Formulario de registro de gasto -->
+  <form [formGroup]="gastoForm" (ngSubmit)="agregarGasto()" class="card p-4 shadow-sm mb-4">
+    <h5 class="mb-3">Registrar nuevo gasto</h5>
+
+    <div class="row g-3">
+      <div class="col-md-4">
+        <label>Monto:</label>
+        <input type="number" class="form-control" formControlName="monto" placeholder="Ej: 1500000" />
+      </div>
+
+      <div class="col-md-4">
+        <label>Fecha:</label>
+        <input type="date" class="form-control" formControlName="fecha" />
+      </div>
+
+      <div class="col-md-4">
+        <label>Proyecto:</label>
+        <select class="form-select" formControlName="proyectoid">
+          <option value="" disabled selected>Selecciona un proyecto</option>
+          <option *ngFor="let p of proyectos" [value]="p.proyectoid">{{ p.nombreproyecto }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="text-end mt-3">
+      <button type="submit" class="btn btn-success" [disabled]="gastoForm.invalid">
+        <i class="bi bi-plus-circle"></i> Registrar Gasto
+      </button>
+    </div>
+  </form>
+
+  <!-- Tabla de gastos -->
+  <div class="card p-3 shadow-sm">
+    <h5 class="mb-3">Lista de Gastos</h5>
+
+    <div *ngIf="cargando" class="text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+
+    <table class="table table-striped" *ngIf="!cargando && gastos.length > 0">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Proyecto</th>
+          <th>Monto</th>
+          <th>Fecha</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let g of gastos">
+          <td>{{ g.gastoid }}</td>
+          <td>{{ g.nombreproyecto }}</td>
+          <td>{{ g.monto | currency:'COP':'symbol':'1.0-0' }}</td>
+          <td>{{ g.fecha | date:'yyyy-MM-dd' }}</td>
+          <td>
+            <button class="btn btn-danger btn-sm" (click)="eliminarGasto(g.gastoid)">
+              <i class="bi bi-trash"></i> Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p *ngIf="!cargando && gastos.length === 0" class="text-center text-muted">
+      No hay gastos registrados.
+    </p>
+  </div>
+</div>
+

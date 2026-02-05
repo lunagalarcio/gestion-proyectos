@@ -1,0 +1,110 @@
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Gestión de Tareas</h2>
+
+  <!-- Formulario -->
+  <form [formGroup]="tareaForm" (ngSubmit)="crearTarea()" class="card p-4 shadow-sm mb-4">
+    <h5 class="mb-3">Registrar Nueva Tarea</h5>
+
+    <div class="row g-3">
+      <div class="col-md-4">
+        <label>Nombre de la tarea:</label>
+        <input type="text" class="form-control" formControlName="nombretarea" placeholder="Ej: Configurar base de datos">
+      </div>
+
+      <div class="col-md-4">
+        <label>Fecha inicio:</label>
+        <input type="date" class="form-control" formControlName="fechainicio">
+      </div>
+
+      <div class="col-md-4">
+        <label>Fecha fin:</label>
+        <input type="date" class="form-control" formControlName="fechafin">
+      </div>
+
+      <div class="col-md-6">
+        <label>Proyecto:</label>
+        <select class="form-select" formControlName="proyectoid">
+          <option value="" disabled selected>Selecciona un proyecto</option>
+          <option *ngFor="let p of proyectos" [value]="p.proyectoid">
+            {{ p.nombreproyecto }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label>Tipo de tarea:</label>
+        <select class="form-select" formControlName="tipotarea">
+          <option value="" disabled selected>Selecciona tipo</option>
+          <option value="tareascriticas">Crítica</option>
+          <option value="tareasopcionales">Opcional</option>
+        </select>
+      </div>
+
+      <!-- Campos adicionales según tipo -->
+      <div class="col-md-4" *ngIf="tareaForm.get('tipotarea')?.value === 'tareascriticas'">
+        <label>Impacto:</label>
+        <input type="text" class="form-control" formControlName="impacto" placeholder="Alto, Medio, Bajo">
+      </div>
+
+      <div class="col-md-4" *ngIf="tareaForm.get('tipotarea')?.value === 'tareascriticas'">
+        <label>Riesgo:</label>
+        <input type="text" class="form-control" formControlName="riesgo" placeholder="Descripción del riesgo">
+      </div>
+
+      <div class="col-md-4" *ngIf="tareaForm.get('tipotarea')?.value === 'tareasopcionales'">
+        <label>Beneficio:</label>
+        <input type="text" class="form-control" formControlName="beneficio" placeholder="Describe el beneficio">
+      </div>
+    </div>
+
+    <div class="text-end mt-3">
+      <button type="submit" class="btn btn-primary" [disabled]="tareaForm.invalid">
+        Registrar Tarea
+      </button>
+    </div>
+  </form>
+
+  <!-- Tabla -->
+  <div class="card p-3 shadow-sm">
+    <h5 class="mb-3">Lista de Tareas</h5>
+
+    <div *ngIf="cargando" class="text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+
+    <table class="table table-striped" *ngIf="!cargando && tareas.length > 0">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Proyecto</th>
+          <th>Tipo</th>
+          <th>Fecha Inicio</th>
+          <th>Fecha Fin</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let t of tareas">
+          <td>{{ t.tareaid }}</td>
+          <td>{{ t.nombretarea }}</td>
+          <td>{{ t.nombreproyecto }}</td>
+          <td>{{ t.tipotarea }}</td>
+          <td>{{ t.fechainicio | date }}</td>
+          <td>{{ t.fechafin | date }}</td>
+          <td>
+            <button class="btn btn-danger btn-sm" (click)="eliminarTarea(t.tareaid)">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p *ngIf="!cargando && tareas.length === 0" class="text-center text-muted">
+      No hay tareas registradas.
+    </p>
+  </div>
+</div>

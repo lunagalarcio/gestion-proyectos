@@ -1,0 +1,47 @@
+<div class="clientes-container">
+  <h2>Lista de Clientes</h2>
+
+  <table class="tabla-clientes">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Contacto</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- 🔥 Agrupamos cliente + proyectos en un solo bloque -->
+      <ng-container *ngFor="let cliente of clientes">
+        <tr>
+          <td>{{ cliente.nombre }}</td>
+          <td>{{ cliente.contacto }}</td>
+          <td>
+            <button (click)="verProyectos(cliente)">
+              {{ clienteSeleccionado === cliente ? 'Ocultar proyectos' : 'Ver proyectos' }}
+            </button>
+            <button (click)="eliminarCliente(cliente.clienteid)">Eliminar</button>
+          </td>
+        </tr>
+
+        <!-- 🔥 Proyectos de este cliente -->
+        <tr *ngIf="clienteSeleccionado?.clienteid === cliente.clienteid">
+          <td colspan="3">
+            <div *ngIf="proyectosCliente.length > 0; else sinProyectos">
+              <h4>Proyectos de {{ clienteSeleccionado.nombre }}:</h4>
+              <ul>
+                <li *ngFor="let proyecto of proyectosCliente">
+                  <strong>{{ proyecto.nombreproyecto }}</strong><br />
+                  Inicio: {{ proyecto.fechainicio | date }}<br />
+                  Fin: {{ proyecto.fechafin | date }}
+                </li>
+              </ul>
+            </div>
+            <ng-template #sinProyectos>
+              <p>Este cliente no tiene proyectos registrados.</p>
+            </ng-template>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,10 @@
+nav a {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+}
+
+nav a.active {
+  color: #ff4081;
+  text-decoration: underline;
+}

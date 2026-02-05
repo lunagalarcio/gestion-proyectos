@@ -1,0 +1,71 @@
+<div class="presupuestos-container">
+  <h2>Gestión de Presupuestos</h2>
+
+  <!-- FORMULARIO DE NUEVO PRESUPUESTO -->
+  <div class="formulario-presupuesto">
+    <h3>Nuevo Presupuesto</h3>
+
+    <form (ngSubmit)="agregarPresupuesto()" [formGroup]="presupuestoForm">
+      <div class="form-row">
+        <label>Proyecto:</label>
+        <select formControlName="proyectoid">
+          <option value="">Seleccione un proyecto</option>
+          <option *ngFor="let p of proyectos" [value]="p.proyectoid">
+            {{ p.nombreproyecto }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label>Monto:</label>
+        <input
+          type="number"
+          formControlName="monto"
+          min="1"
+          placeholder="Ingrese el monto"
+        />
+      </div>
+
+      <div class="form-row">
+        <button type="submit" [disabled]="presupuestoForm.invalid">
+          Agregar Presupuesto
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- LISTA DE PRESUPUESTOS -->
+  <h3>Lista de Presupuestos</h3>
+
+  <div *ngIf="cargando" class="cargando">
+    <p>Cargando datos...</p>
+  </div>
+
+  <table
+    class="tabla-presupuestos"
+    *ngIf="!cargando && presupuestos.length > 0"
+  >
+    <thead>
+      <tr>
+        <th>Proyecto</th>
+        <th>Monto</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <ng-container *ngFor="let p of presupuestos">
+        <tr>
+          <td>{{ p.nombreproyecto || p.proyectoid }}</td>
+          <td>{{ p.monto | currency:'USD':'symbol':'1.0-0' }}</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+
+  <div
+    *ngIf="!cargando && presupuestos.length === 0"
+    class="sin-presupuestos"
+  >
+    <p>No hay presupuestos registrados.</p>
+  </div>
+</div>

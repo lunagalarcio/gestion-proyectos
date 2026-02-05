@@ -1,0 +1,178 @@
+/* ======= LAYOUT GENERAL ======= */
+.layout-container {
+  display: flex;
+  height: 100vh;
+  background: #f8fafc;
+  font-family: "Inter", "Segoe UI", sans-serif;
+  color: #1e293b;
+  overflow: hidden;
+}
+
+/* ======= SIDEBAR ======= */
+.sidebar {
+  width: 250px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #e2e8f0;
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.sidebar-header {
+  padding: 2rem 1.5rem;
+  border-bottom: 1px solid #f1f5f9;
+  text-align: center;
+}
+
+.sidebar-header h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #2196f3;
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+
+.sidebar-header p {
+  font-size: 0.9rem;
+  color: #3a4452;
+  margin-top: 0.4rem;
+  font-weight: 500;
+}
+
+/* ======= MENÚ ======= */
+.menu {
+  padding: 1.5rem;
+  flex-grow: 1;
+}
+
+.menu a {
+  display: block;
+  text-decoration: none;
+  color: #334155;
+  padding: 0.9rem 1rem;
+  margin-bottom: 0.4rem;
+  border-radius: 10px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.menu a:hover {
+  background: #e0ecff;
+  color: #1e40af;
+  transform: translateX(3px);
+}
+
+.menu a.active {
+  background: linear-gradient(90deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  box-shadow: 0 2px 5px rgba(37, 99, 235, 0.3);
+}
+
+/* ======= TOPBAR ======= */
+.topbar {
+  background: #2196f3;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.topbar h1 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+/* ======= BOTONES ======= */
+.btn-primary, .btn-secondary {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.btn-primary {
+  background: #1e3a8a;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #1e3a8a;
+  transform: scale(1.03);
+}
+
+.btn-secondary {
+  background: white;
+  color: #1d4ed8;
+  border: 1px solid #1d4ed8;
+}
+
+.btn-secondary:hover {
+  background: #eff6ff;
+  transform: scale(1.03);
+}
+
+/* ======= CONTENIDO ======= */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.content {
+  flex: 1;
+  padding: 2rem 3rem;
+  overflow-y: auto;
+  background: #f8fafc;
+  animation: fadeIn 0.4s ease;
+}
+
+.content h2 {
+  font-size: 1.4rem;
+  color: #1e3a8a;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #2563eb;
+  display: inline-block;
+  padding-bottom: 0.3rem;
+}
+
+/* ======= ANIMACIONES ======= */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ======= SCROLL PERSONALIZADO ======= */
+.content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.content::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.content::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 8px;
+}
+
+.content::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}

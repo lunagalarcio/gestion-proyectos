@@ -1,0 +1,11 @@
+<h2>Usuarios Registrados</h2>
+
+<ul *ngIf="users.length > 0; else noUsers">
+  <li *ngFor="let user of users">
+    <strong>{{ user.nombre }}</strong> — {{ user.correo }} — {{ user.telefono }} — {{ user.tipo_persona }}
+  </li>
+</ul>
+
+<ng-template #noUsers>
+  <p>No hay usuarios registrados.</p>
+</ng-template>

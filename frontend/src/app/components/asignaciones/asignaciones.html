@@ -1,0 +1,82 @@
+<div class="asignaciones-container">
+  <h2>Gestión de Asignaciones</h2>
+
+  <!-- FORMULARIO DE NUEVA ASIGNACIÓN -->
+  <div class="formulario-asignacion">
+    <h3>Nueva Asignación</h3>
+
+    <form (ngSubmit)="agregarAsignacion()" [formGroup]="asignacionForm">
+      <div class="form-row">
+        <label>Empleado:</label>
+        <select formControlName="empleadoid">
+          <option value="">Seleccione</option>
+          <option *ngFor="let emp of empleados" [value]="emp.empleadoid">
+            {{ emp.nombre }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label>Tarea:</label>
+        <select formControlName="tareaid">
+          <option value="">Seleccione</option>
+          <option *ngFor="let tarea of tareas" [value]="tarea.tareaid">
+            {{ tarea.nombretarea }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label>Hora asignada:</label>
+        <!-- Cambiado de type="number" a type="time" -->
+        <input type="time" formControlName="horasasignadas" required />
+      </div>
+
+      <div class="form-row">
+        <label>Fecha:</label>
+        <input type="date" formControlName="fechaasignacion" required />
+      </div>
+
+      <div class="form-row">
+        <button type="submit" [disabled]="asignacionForm.invalid">Agregar</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- LISTA DE ASIGNACIONES -->
+  <h3>Lista de Asignaciones</h3>
+
+  <div *ngIf="cargando" class="cargando">
+    <p>Cargando datos...</p>
+  </div>
+
+  <table class="tabla-asignaciones" *ngIf="!cargando && asignaciones.length > 0">
+    <thead>
+      <tr>
+        <th>Empleado</th>
+        <th>Tarea</th>
+        <th>Hora</th>
+        <th>Fecha</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <ng-container *ngFor="let asig of asignaciones">
+        <tr>
+          <td>{{ asig.empleado || asig.empleadoid }}</td>
+          <td>{{ asig.nombretarea || asig.tareaid }}</td>
+          <td>{{ asig.horasasignadas }}</td>
+          <td>{{ asig.fechaasignacion | date: 'yyyy-MM-dd' }}</td>
+          <td>
+            <button (click)="eliminarAsignacion(asig.asignacionid!)">Eliminar</button>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+
+  <div *ngIf="!cargando && asignaciones.length === 0" class="sin-asignaciones">
+    <p>No hay asignaciones registradas.</p>
+  </div>
+</div>

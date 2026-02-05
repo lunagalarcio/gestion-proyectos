@@ -1,0 +1,99 @@
+<div class="container">
+  <h2>Gestión de Empleados y Departamentos</h2>
+
+  <!-- ==================== EMPLEADOS ==================== -->
+  <section class="seccion">
+    <h3>Empleados</h3>
+
+    <div *ngIf="cargando" class="loading">Cargando empleados...</div>
+
+    <table *ngIf="!cargando && empleados.length > 0">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Departamento</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let e of empleados">
+          <td>{{ e.empleadoid }}</td>
+          <td>{{ e.nombre }}</td>
+          <td>{{ e.nombredepartamento || 'Sin asignar' }}</td>
+          <td>
+            <button class="btn-delete" (click)="eliminarEmpleado(e.empleadoid)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p *ngIf="!cargando && empleados.length === 0" class="empty">
+      No hay empleados registrados.
+    </p>
+  </section>
+
+  <hr />
+
+  <!-- ==================== DEPARTAMENTOS ==================== -->
+  <section class="seccion">
+    <h3>Departamentos</h3>
+
+    <div class="acciones">
+      <button (click)="mostrarCrearDepartamento = !mostrarCrearDepartamento">
+        {{ mostrarCrearDepartamento ? 'Cancelar' : 'Nuevo Departamento' }}
+      </button>
+    </div>
+
+    <!-- Crear nuevo departamento -->
+    <div *ngIf="mostrarCrearDepartamento" class="nuevo-dep">
+      <input
+        type="text"
+        placeholder="Nombre del nuevo departamento"
+        [(ngModel)]="nuevoDepartamento.nombredepartamento"
+        name="nombredepartamento"
+      />
+      <select
+  [(ngModel)]="nuevoDepartamento.jefe_departamento"
+  name="jefedepartamento"
+>
+  <option value="">Seleccione un jefe</option>
+
+  <!-- Lista de empleados -->
+  <option *ngFor="let emp of empleados" [value]="emp.nombre">
+    {{ emp.nombre }}
+  </option>
+</select>
+
+      <button (click)="crearDepartamento()">Guardar</button>
+    </div>
+
+    <!-- Lista de departamentos -->
+    <table *ngIf="departamentos.length > 0">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre del Departamento</th>
+          <th>Jefe del Departamento</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let d of departamentos">
+          <td>{{ d.departamentoid }}</td>
+          <td>{{ d.nombredepartamento }}</td>
+          <td>{{ d.jefedepartamento }}</td>
+          <td>
+            <button class="btn-delete" (click)="eliminarDepartamento(d.departamentoid)">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p *ngIf="departamentos.length === 0" class="empty">
+      No hay departamentos registrados.
+    </p>
+  </section>
+</div>

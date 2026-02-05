@@ -1,0 +1,78 @@
+<div class="container">
+  <h2>Gestión de Recursos</h2>
+
+  <form [formGroup]="recursoForm" (ngSubmit)="crearRecurso()" class="formulario">
+    <label>Nombre del recurso:</label>
+    <input formControlName="nombrerecurso" type="text" placeholder="Nombre del recurso" />
+
+    <label>Tipo de recurso:</label>
+    <select formControlName="tiporecurso">
+      <option value="" disabled selected>Selecciona tipo</option>
+      <option value="material">Material</option>
+      <option value="equipo">Equipo</option>
+    </select>
+
+    <label>Cantidad disponible:</label>
+    <input formControlName="cantidaddisponible" type="number" min="1" />
+
+    <label>Proyecto:</label>
+    <select formControlName="proyectoid">
+      <option value="" disabled selected>Selecciona un proyecto</option>
+      <option *ngFor="let p of proyectos" [value]="p.proyectoid">{{ p.nombreproyecto }}</option>
+    </select>
+
+    <!-- Mostrar campos según tipo -->
+    <div *ngIf="recursoForm.get('tiporecurso')?.value === 'material'">
+      <label>Tipo de material:</label>
+      <input formControlName="tipomaterial" type="text" />
+
+      <label>Cantidad del material:</label>
+      <input formControlName="cantidad" type="number" />
+    </div>
+
+    <div *ngIf="recursoForm.get('tiporecurso')?.value === 'equipo'">
+      <label>Tipo de equipo:</label>
+      <input formControlName="tipoequipo" type="text" />
+
+      <label>Estado:</label>
+      <select formControlName="estado">
+        <option value="Operativo">Operativo</option>
+        <option value="En reparación">En reparación</option>
+        <option value="Fuera de servicio">Fuera de servicio</option>
+      </select>
+    </div>
+
+    <button type="submit" [disabled]="recursoForm.invalid">Agregar recurso</button>
+  </form>
+
+  <h3>Lista de recursos</h3>
+  <div *ngIf="cargando">Cargando recursos...</div>
+
+  <table *ngIf="!cargando && recursos.length > 0">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Tipo</th>
+        <th>Cantidad</th>
+        <th>Proyecto</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let r of recursos">
+        <td>{{ r.recursoid }}</td>
+        <td>{{ r.nombrerecurso }}</td>
+        <td>{{ r.tiporecurso }}</td>
+        <td>{{ r.cantidaddisponible }}</td>
+        <td>{{ r.nombreproyecto }}</td>
+        <td>
+          <button (click)="eliminarRecurso(r.recursoid)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!cargando && recursos.length === 0">No hay recursos registrados.</p>
+</div>
+
