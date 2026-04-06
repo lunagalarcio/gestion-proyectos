@@ -12,18 +12,20 @@ import { Router } from '@angular/router';
   styleUrl: './login.css',
 })
 export class LoginComponent {
-correo = '';
+  correo = '';
   password = '';
   mensaje = '';
 
-  constructor(private loginService: LoginService, private router: Router) {}
+  constructor(
+    private loginService: LoginService,
+    private router: Router,
+  ) {}
 
- onSubmit() {
+  onSubmit() {
     this.loginService.login(this.correo, this.password).subscribe({
       next: (res: any) => {
         console.log('Inicio de sesión exitoso', res);
         alert('Inicio de sesión exitoso');
-
 
         this.router.navigate(['/proyectos']);
 
@@ -38,3 +40,6 @@ correo = '';
     });
   }
 }
+
+
+  

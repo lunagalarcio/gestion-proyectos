@@ -2,38 +2,116 @@
   <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-header">
-      <h2>NM</h2>
-      <p>New management</p>
+      <div class="logo-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+          <path d="M2 17l10 5 10-5"></path>
+          <path d="M2 12l10 5 10-5"></path>
+        </svg>
+      </div>
+      <div class="logo-text">
+        <h2>NM</h2>
+        <p>New Management</p>
+      </div>
     </div>
     <nav class="menu">
-      <a routerLink="/proyectos" routerLinkActive="active">Proyectos</a>
-      <a routerLink="/empleados" routerLinkActive="active">Empleados</a>
-      <a routerLink="/clientes" routerLinkActive="active">Clientes</a>
-      <a routerLink="/tareas" routerLinkActive="active">Tareas</a>
-      <a routerLink="/recursos" routerLinkActive="active">Recursos</a>
-      <a routerLink="/presupuestos" routerLinkActive="active">Presupuesto</a>
-      <a routerLink="/reportes" routerLinkActive="active">Reportes</a>
-      <a routerLink="/gastos" routerLinkActive="active">Gastos</a>
-      <a routerLink="/asignaciones" routerLinkActive="active">Asignaciones</a>
-
+      <a routerLink="/proyectos" routerLinkActive="active">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <span>Proyectos</span>
+      </a>
+      <a routerLink="/empleados" routerLinkActive="active">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+        <span>Empleados</span>
+      </a>
+      <a routerLink="/clientes" routerLinkActive="active">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <line x1="19" x2="19" y1="8" y2="14"></line>
+          <line x1="22" x2="16" y1="11" y2="11"></line>
+        </svg>
+        <span>Clientes</span>
+      </a>
+      <a routerLink="/tareas" routerLinkActive="active">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 11l3 3L22 4"></path>
+          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+        </svg>
+        <span>Tareas</span>
+      </a>
+      <a routerLink="/recursos" routerLinkActive="active">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m7.5 4.27 9 5.15"></path>
+          <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path>
+          <path d="m3.3 7 8.7 5 8.7-5"></path>
+          <path d="M12 22V12"></path>
+        </svg>
+        <span>Recursos</span>
+      </a>
+      <a routerLink="/presupuestos" routerLinkActive="active">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" x2="12" y1="2" y2="22"></line>
+          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+        </svg>
+        <span>Presupuesto</span>
+      </a>
+      <a routerLink="/reportes" routerLinkActive="active">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 3v18h18"></path>
+          <path d="m19 9-5 5-4-4-3 3"></path>
+        </svg>
+        <span>Reportes</span>
+      </a>
+      <a routerLink="/gastos" routerLinkActive="active">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h3v2h4v-4c1-.5 1.7-1 2-2h2v-4h-2c0-1-.5-1.5-2-2V5z"></path>
+          <path d="M2 9v1c0 1.1.9 2 2 2h1"></path>
+          <path d="M16 11h.01"></path>
+        </svg>
+        <span>Gastos</span>
+      </a>
+      <a routerLink="/asignaciones" routerLinkActive="active">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="7" height="7" x="3" y="3" rx="1"></rect>
+          <rect width="7" height="7" x="14" y="3" rx="1"></rect>
+          <rect width="7" height="7" x="14" y="14" rx="1"></rect>
+          <rect width="7" height="7" x="3" y="14" rx="1"></rect>
+        </svg>
+        <span>Asignaciones</span>
+      </a>
     </nav>
   </aside>
 
-  <!-- Contenido principal -->
+  <!-- Main Content -->
   <div class="main-content">
-    <!-- Barra superior -->
+    <!-- Topbar -->
     <header class="topbar">
-      <div class="title">
+      <div class="topbar-title">
+        <span class="page-indicator">●</span>
+        <span>Panel de Control</span>
       </div>
-      <div class="actions">
-        <button class="btn-primary" routerLink="/home">Cerrar sesión</button>
+      <div class="topbar-actions">
+        <button class="btn-logout" routerLink="/">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" x2="9" y1="12" y2="12"></line>
+          </svg>
+          Cerrar sesión
+        </button>
       </div>
     </header>
 
-    <!-- Contenido dinámico -->
-    <div class="content">
+    <!-- Content -->
+    <div class="content scroll-custom">
       <router-outlet></router-outlet>
     </div>
   </div>
 </div>
-
