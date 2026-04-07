@@ -1,61 +1,73 @@
-<div class="container mt-4">
-
+<div class="page-container">
   <!-- Formulario para crear proyecto -->
-  <form [formGroup]="proyectoForm" (ngSubmit)="crearProyecto()" class="card p-4 shadow-sm mb-4">
-    <h5>Crear nuevo proyecto</h5>
-
-    <div class="row g-3">
-      <div class="col-md-3">
-        <label>Nombre del Proyecto:</label>
-        <input type="text" class="form-control" formControlName="nombreproyecto" placeholder="Ej: Sistema de Gestión" />
-      </div>
-
-      <div class="col-md-3">
-        <label>Fecha de inicio:</label>
-        <input type="date" class="form-control" formControlName="fechainicio" />
-      </div>
-
-      <div class="col-md-3">
-        <label>Fecha de fin:</label>
-        <input type="date" class="form-control" formControlName="fechafin" />
-      </div>
-
-      <div class="col-md-3">
-        <label for="clienteid">Cliente:</label>
-        <select
-          id="clienteid"
-          class="form-select"
-          formControlName="clienteid"
-          required
-        >
-          <option value="" disabled selected>Selecciona un cliente</option>
-          <option *ngFor="let cliente of clientes" [value]="cliente.clienteid">
-            {{ cliente.nombre }}
-          </option>
-        </select>
+  <div class="form-card">
+    <div class="card-header">
+      <div>
+        <h3 class="card-title">Crear nuevo proyecto</h3>
+        <p class="card-subtitle">Ingresa los datos del proyecto</p>
       </div>
     </div>
 
-    <div class="text-end mt-3">
-      <button type="submit" class="btn btn-primary" [disabled]="proyectoForm.invalid">
-        Crear Proyecto
-      </button>
-    </div>
+    <form [formGroup]="proyectoForm" (ngSubmit)="crearProyecto()">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="field-label">Nombre del Proyecto</label>
+          <input 
+            type="text" 
+            class="input-field" 
+            formControlName="nombreproyecto" 
+            placeholder="Ej: Sistema de Gestión" 
+          />
+        </div>
 
-  </form>
+        <div class="form-group">
+          <label class="field-label">Fecha de inicio</label>
+          <input type="date" class="input-field" formControlName="fechainicio" />
+        </div>
+
+        <div class="form-group">
+          <label class="field-label">Fecha de fin</label>
+          <input type="date" class="input-field" formControlName="fechafin" />
+        </div>
+
+        <div class="form-group">
+          <label class="field-label">Cliente</label>
+          <select class="input-field" formControlName="clienteid" required>
+            <option value="" disabled selected>Selecciona un cliente</option>
+            <option *ngFor="let cliente of clientes" [value]="cliente.clienteid">
+              {{ cliente.nombre }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-primary" [disabled]="proyectoForm.invalid">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+          Crear Proyecto
+        </button>
+      </div>
+    </form>
+  </div>
 
   <!-- Tabla de proyectos -->
-  <div class="card p-3 shadow-sm">
-    <h5 class="mb-3">Lista de proyectos</h5>
-
-    <div *ngIf="cargando" class="text-center">
-      <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Cargando...</span>
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <h3 class="card-title">Lista de proyectos</h3>
+        <p class="card-subtitle">{{ proyectos.length }} proyectos registrados</p>
       </div>
     </div>
 
-    <table class="table table-striped" *ngIf="!cargando && proyectos.length > 0">
-      <thead class="table-dark">
+    <div *ngIf="cargando" class="loading">
+      <div class="loading-spinner"></div>
+      <p>Cargando proyectos...</p>
+    </div>
+
+    <table class="data-table" *ngIf="!cargando && proyectos.length > 0">
+      <thead>
         <tr>
           <th>ID</th>
           <th>Nombre</th>
@@ -69,11 +81,14 @@
         <tr *ngFor="let proyecto of proyectos">
           <td>{{ proyecto.proyectoid }}</td>
           <td>{{ proyecto.nombreproyecto }}</td>
-          <td>{{ proyecto.fechainicio | date }}</td>
-          <td>{{ proyecto.fechafin | date }}</td>
-          <td>{{ proyecto.cliente}}</td>
+          <td>{{ proyecto.fechainicio | date:'dd/MM/yyyy' }}</td>
+          <td>{{ proyecto.fechafin | date:'dd/MM/yyyy' }}</td>
+          <td>{{ proyecto.cliente }}</td>
           <td>
-            <button class="btn btn-danger btn-sm" (click)="eliminarProyecto(proyecto.proyectoid!)">
+            <button class="btn-danger btn-sm" (click)="eliminarProyecto(proyecto.proyectoid!)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+              </svg>
               Eliminar
             </button>
           </td>
@@ -81,8 +96,11 @@
       </tbody>
     </table>
 
-    <p *ngIf="!cargando && proyectos.length === 0" class="text-center text-muted">
-      No hay proyectos registrados.
-    </p>
+    <div *ngIf="!cargando && proyectos.length === 0" class="empty-state">
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+      </svg>
+      <p>No hay proyectos registrados</p>
+    </div>
   </div>
 </div>

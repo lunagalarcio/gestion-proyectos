@@ -1,49 +1,61 @@
-<div class="container mt-4">
-  <h2 class="text-center mb-4">Gestión de Gastos</h2>
-
-  <!-- Formulario de registro de gasto -->
-  <form [formGroup]="gastoForm" (ngSubmit)="agregarGasto()" class="card p-4 shadow-sm mb-4">
-    <h5 class="mb-3">Registrar nuevo gasto</h5>
-
-    <div class="row g-3">
-      <div class="col-md-4">
-        <label>Monto:</label>
-        <input type="number" class="form-control" formControlName="monto" placeholder="Ej: 1500000" />
-      </div>
-
-      <div class="col-md-4">
-        <label>Fecha:</label>
-        <input type="date" class="form-control" formControlName="fecha" />
-      </div>
-
-      <div class="col-md-4">
-        <label>Proyecto:</label>
-        <select class="form-select" formControlName="proyectoid">
-          <option value="" disabled selected>Selecciona un proyecto</option>
-          <option *ngFor="let p of proyectos" [value]="p.proyectoid">{{ p.nombreproyecto }}</option>
-        </select>
+<div class="page-container">
+  <!-- Formulario -->
+  <div class="form-card">
+    <div class="card-header">
+      <div>
+        <h3 class="card-title">Registrar nuevo gasto</h3>
+        <p class="card-subtitle">Registra los gastos del proyecto</p>
       </div>
     </div>
 
-    <div class="text-end mt-3">
-      <button type="submit" class="btn btn-success" [disabled]="gastoForm.invalid">
-        <i class="bi bi-plus-circle"></i> Registrar Gasto
-      </button>
-    </div>
-  </form>
+    <form [formGroup]="gastoForm" (ngSubmit)="agregarGasto()">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="field-label">Monto</label>
+          <input type="number" class="input-field" formControlName="monto" placeholder="Ej: 1500000">
+        </div>
 
-  <!-- Tabla de gastos -->
-  <div class="card p-3 shadow-sm">
-    <h5 class="mb-3">Lista de Gastos</h5>
+        <div class="form-group">
+          <label class="field-label">Fecha</label>
+          <input type="date" class="input-field" formControlName="fecha">
+        </div>
 
-    <div *ngIf="cargando" class="text-center">
-      <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Cargando...</span>
+        <div class="form-group">
+          <label class="field-label">Proyecto</label>
+          <select class="input-field" formControlName="proyectoid">
+            <option value="" disabled selected>Selecciona un proyecto</option>
+            <option *ngFor="let p of proyectos" [value]="p.proyectoid">{{ p.nombreproyecto }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-primary" [disabled]="gastoForm.invalid">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+          Registrar Gasto
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Tabla -->
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <h3 class="card-title">Lista de Gastos</h3>
+        <p class="card-subtitle">{{ gastos.length }} gastos registrados</p>
       </div>
     </div>
 
-    <table class="table table-striped" *ngIf="!cargando && gastos.length > 0">
-      <thead class="table-dark">
+    <div *ngIf="cargando" class="loading">
+      <div class="loading-spinner"></div>
+      <p>Cargando gastos...</p>
+    </div>
+
+    <table class="data-table" *ngIf="!cargando && gastos.length > 0">
+      <thead>
         <tr>
           <th>ID</th>
           <th>Proyecto</th>
@@ -57,19 +69,26 @@
           <td>{{ g.gastoid }}</td>
           <td>{{ g.nombreproyecto }}</td>
           <td>{{ g.monto | currency:'COP':'symbol':'1.0-0' }}</td>
-          <td>{{ g.fecha | date:'yyyy-MM-dd' }}</td>
+          <td>{{ g.fecha | date:'dd/MM/yyyy' }}</td>
           <td>
-            <button class="btn btn-danger btn-sm" (click)="eliminarGasto(g.gastoid)">
-              <i class="bi bi-trash"></i> Eliminar
+            <button class="btn-danger btn-sm" (click)="eliminarGasto(g.gastoid)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+              </svg>
+              Eliminar
             </button>
           </td>
         </tr>
       </tbody>
     </table>
 
-    <p *ngIf="!cargando && gastos.length === 0" class="text-center text-muted">
-      No hay gastos registrados.
-    </p>
+    <div *ngIf="!cargando && gastos.length === 0" class="empty-state">
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h3v2h4v-4c1-.5 1.7-1 2-2h2v-4h-2c0-1-.5-1.5-2-2V5z"/>
+        <path d="M2 9v1c0 1.1.9 2 2 2h1"/>
+        <path d="M16 11h.01"/>
+      </svg>
+      <p>No hay gastos registrados</p>
+    </div>
   </div>
 </div>
-

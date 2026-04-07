@@ -1,47 +1,64 @@
-<div class="clientes-container">
-  <h2>Lista de Clientes</h2>
+<div class="page-container">
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <h3 class="card-title">Lista de Clientes</h3>
+        <p class="card-subtitle">{{ clientes.length }} clientes</p>
+      </div>
+    </div>
 
-  <table class="tabla-clientes">
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Contacto</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- 🔥 Agrupamos cliente + proyectos en un solo bloque -->
-      <ng-container *ngFor="let cliente of clientes">
+    <table class="data-table" *ngIf="clientes.length > 0">
+      <thead>
         <tr>
-          <td>{{ cliente.nombre }}</td>
-          <td>{{ cliente.contacto }}</td>
-          <td>
-            <button (click)="verProyectos(cliente)">
-              {{ clienteSeleccionado === cliente ? 'Ocultar proyectos' : 'Ver proyectos' }}
-            </button>
-            <button (click)="eliminarCliente(cliente.clienteid)">Eliminar</button>
-          </td>
+          <th>Nombre</th>
+          <th>Contacto</th>
+          <th>Acciones</th>
         </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let cliente of clientes">
+          <tr>
+            <td>{{ cliente.nombre }}</td>
+            <td>{{ cliente.contacto }}</td>
+            <td class="actions-cell">
+              <button class="btn-ghost btn-sm" (click)="verProyectos(cliente)">
+                {{ clienteSeleccionado === cliente ? 'Ocultar' : 'Ver proyectos' }}
+              </button>
+              <button class="btn-danger btn-sm" (click)="eliminarCliente(cliente.clienteid)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                </svg>
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="clienteSeleccionado?.clienteid === cliente.clienteid">
+            <td colspan="3" style="background: rgba(139, 92, 246, 0.05);">
+              <div *ngIf="proyectosCliente.length > 0; else sinProyectos">
+                <h4 style="font-size: 0.9rem; color: var(--accent-secondary); margin-bottom: 12px;">Proyectos de {{ clienteSeleccionado.nombre }}:</h4>
+                <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+                  <div *ngFor="let proyecto of proyectosCliente" class="project-badge">
+                    <strong>{{ proyecto.nombreproyecto }}</strong>
+                    <span>{{ proyecto.fechainicio | date:'dd/MM/yyyy' }} - {{ proyecto.fechafin | date:'dd/MM/yyyy' }}</span>
+                  </div>
+                </div>
+              </div>
+              <ng-template #sinProyectos>
+                <p class="text-muted">Este cliente no tiene proyectos registrados.</p>
+              </ng-template>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
 
-        <!-- 🔥 Proyectos de este cliente -->
-        <tr *ngIf="clienteSeleccionado?.clienteid === cliente.clienteid">
-          <td colspan="3">
-            <div *ngIf="proyectosCliente.length > 0; else sinProyectos">
-              <h4>Proyectos de {{ clienteSeleccionado.nombre }}:</h4>
-              <ul>
-                <li *ngFor="let proyecto of proyectosCliente">
-                  <strong>{{ proyecto.nombreproyecto }}</strong><br />
-                  Inicio: {{ proyecto.fechainicio | date }}<br />
-                  Fin: {{ proyecto.fechafin | date }}
-                </li>
-              </ul>
-            </div>
-            <ng-template #sinProyectos>
-              <p>Este cliente no tiene proyectos registrados.</p>
-            </ng-template>
-          </td>
-        </tr>
-      </ng-container>
-    </tbody>
-  </table>
+    <div *ngIf="clientes.length === 0" class="empty-state">
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+        <circle cx="9" cy="7" r="4"/>
+        <line x1="19" x2="19" y1="8" y2="14"/>
+        <line x1="22" x2="16" y1="11" y2="11"/>
+      </svg>
+      <p>No hay clientes registrados</p>
+    </div>
+  </div>
 </div>

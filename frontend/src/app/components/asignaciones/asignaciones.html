@@ -1,82 +1,103 @@
-<div class="asignaciones-container">
-  <h2>Gestión de Asignaciones</h2>
-
-  <!-- FORMULARIO DE NUEVA ASIGNACIÓN -->
-  <div class="formulario-asignacion">
-    <h3>Nueva Asignación</h3>
+<div class="page-container">
+  <!-- Formulario -->
+  <div class="form-card">
+    <div class="card-header">
+      <div>
+        <h3 class="card-title">Nueva Asignación</h3>
+        <p class="card-subtitle">Asigna tareas a empleados</p>
+      </div>
+    </div>
 
     <form (ngSubmit)="agregarAsignacion()" [formGroup]="asignacionForm">
       <div class="form-row">
-        <label>Empleado:</label>
-        <select formControlName="empleadoid">
-          <option value="">Seleccione</option>
-          <option *ngFor="let emp of empleados" [value]="emp.empleadoid">
-            {{ emp.nombre }}
-          </option>
-        </select>
+        <div class="form-group">
+          <label class="field-label">Empleado</label>
+          <select class="input-field" formControlName="empleadoid">
+            <option value="">Seleccione</option>
+            <option *ngFor="let emp of empleados" [value]="emp.empleadoid">{{ emp.nombre }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="field-label">Tarea</label>
+          <select class="input-field" formControlName="tareaid">
+            <option value="">Seleccione</option>
+            <option *ngFor="let tarea of tareas" [value]="tarea.tareaid">{{ tarea.nombretarea }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="field-label">Hora asignada</label>
+          <input type="time" class="input-field" formControlName="horasasignadas" required>
+        </div>
+
+        <div class="form-group">
+          <label class="field-label">Fecha</label>
+          <input type="date" class="input-field" formControlName="fechaasignacion" required>
+        </div>
       </div>
 
-      <div class="form-row">
-        <label>Tarea:</label>
-        <select formControlName="tareaid">
-          <option value="">Seleccione</option>
-          <option *ngFor="let tarea of tareas" [value]="tarea.tareaid">
-            {{ tarea.nombretarea }}
-          </option>
-        </select>
-      </div>
-
-      <div class="form-row">
-        <label>Hora asignada:</label>
-        <!-- Cambiado de type="number" a type="time" -->
-        <input type="time" formControlName="horasasignadas" required />
-      </div>
-
-      <div class="form-row">
-        <label>Fecha:</label>
-        <input type="date" formControlName="fechaasignacion" required />
-      </div>
-
-      <div class="form-row">
-        <button type="submit" [disabled]="asignacionForm.invalid">Agregar</button>
+      <div class="form-actions">
+        <button type="submit" class="btn-primary" [disabled]="asignacionForm.invalid">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+          Agregar
+        </button>
       </div>
     </form>
   </div>
 
-  <!-- LISTA DE ASIGNACIONES -->
-  <h3>Lista de Asignaciones</h3>
+  <!-- Tabla -->
+  <div class="card">
+    <div class="card-header">
+      <div>
+        <h3 class="card-title">Lista de Asignaciones</h3>
+        <p class="card-subtitle">{{ asignaciones.length }} asignaciones</p>
+      </div>
+    </div>
 
-  <div *ngIf="cargando" class="cargando">
-    <p>Cargando datos...</p>
-  </div>
+    <div *ngIf="cargando" class="loading">
+      <div class="loading-spinner"></div>
+      <p>Cargando datos...</p>
+    </div>
 
-  <table class="tabla-asignaciones" *ngIf="!cargando && asignaciones.length > 0">
-    <thead>
-      <tr>
-        <th>Empleado</th>
-        <th>Tarea</th>
-        <th>Hora</th>
-        <th>Fecha</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <ng-container *ngFor="let asig of asignaciones">
+    <table class="data-table" *ngIf="!cargando && asignaciones.length > 0">
+      <thead>
         <tr>
+          <th>Empleado</th>
+          <th>Tarea</th>
+          <th>Hora</th>
+          <th>Fecha</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let asig of asignaciones">
           <td>{{ asig.empleado || asig.empleadoid }}</td>
           <td>{{ asig.nombretarea || asig.tareaid }}</td>
           <td>{{ asig.horasasignadas }}</td>
-          <td>{{ asig.fechaasignacion | date: 'yyyy-MM-dd' }}</td>
+          <td>{{ asig.fechaasignacion | date:'dd/MM/yyyy' }}</td>
           <td>
-            <button (click)="eliminarAsignacion(asig.asignacionid!)">Eliminar</button>
+            <button class="btn-danger btn-sm" (click)="eliminarAsignacion(asig.asignacionid!)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+              </svg>
+              Eliminar
+            </button>
           </td>
         </tr>
-      </ng-container>
-    </tbody>
-  </table>
+      </tbody>
+    </table>
 
-  <div *ngIf="!cargando && asignaciones.length === 0" class="sin-asignaciones">
-    <p>No hay asignaciones registradas.</p>
+    <div *ngIf="!cargando && asignaciones.length === 0" class="empty-state">
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect width="7" height="7" x="3" y="3" rx="1"/>
+        <rect width="7" height="7" x="14" y="3" rx="1"/>
+        <rect width="7" height="7" x="14" y="14" rx="1"/>
+        <rect width="7" height="7" x="3" y="14" rx="1"/>
+      </svg>
+      <p>No hay asignaciones registradas</p>
+    </div>
   </div>
 </div>
