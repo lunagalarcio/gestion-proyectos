@@ -870,3 +870,120 @@ router.delete('/gastos/:id', async (req, res) => {
 
 
 export default router;
+
+
+// ============ DASHBOARD / ESTADÍSTICAS ============
+// Obtener métricas generales del dashboard
+router.get('/dashboard/estadisticas', async (req, res) => {
+  try {
+    // Total de proyectos
+    const totalProyectos = await pool.query('SELECT COUNT(*) as total FROM proyectos');
+    
+    // Total presupuesto
+    const presupuestoTotal = await pool.query(`
+      SELECT COALESCE(SUM(monto), 0) as total FROM presupuestos
+    `);
+    
+    // Total gastos
+    const gastosTotal = await pool.query(`
+      SELECT COALESCE(SUM(monto), 0) as total FROM gastos
+    `);
+    
+    // Total empleados
+    const totalEmpleados = await pool.query('SELECT COUNT(*) as total FROM empleados');
+    
+    // Total clientes
+    const totalClientes = await pool.query('SELECT COUNT(*) as total FROM clientes');
+    
+    // Total tareas
+    const totalTareas = await pool.query('SELECT COUNT(*) as total FROM tareas');
+    
+    // Proyectos por estado (basado en fechas)
+    const proyectosActivos = await pool.query(`
+      SELECT COUNT(*) as total FROM proyectos 
+      WHERE fechafin >= CURRENT_DATE
+    `);
+    
+    const proyectosFinalizados = await pool.query(`
+      SELECT COUNT(*) as total FROM proyectos 
+      WHERE fechafin < CURRENT_DATE
+    `);
+    
+    // Proyectos próximos a vencer (próximos 30 días)
+    const proyectosProximos = await pool.query(`
+      SELECT proyectoid, nombreproyecto, fechafin
+      FROM proyectos 
+      WHERE fechafin >= CURRENT_DATE 
+      AND fechafin <= CURRENT_DATE + INTERVAL '30 days'
+      ORDER BY fechafin ASC
+      LIMIT 5
+    `);
+    
+    // Últimos proyectos creados
+    const ultimosProyectos = await pool.query(`
+      SELECT p.proyectoid, p.nombreproyecto, p.fechainicio, p.fechafin, per.nombre as cliente
+      FROM proyectos p
+      JOIN clientes c ON c.clienteid = p.clienteid
+      JOIN personas per ON per.personaid = c.personaid
+      ORDER BY p.fechainicio DESC
+      LIMIT 5
+    `);
+    
+    // Presupuesto por proyecto
+    const presupuestoPorProyecto = await pool.query(`
+      SELECT p.nombreproyecto, COALESCE(pr.monto, 0) as presupuesto,
+             COALESCE((SELECT SUM(g.monto) FROM gastos g WHERE g.proyectoid = p.proyectoid), 0) as gastado
+      FROM proyectos p
+      LEFT JOIN presupuestos pr ON pr.proyectoid = p.proyectoid
+      ORDER BY pr.monto DESC NULLS LAST
+      LIMIT 10
+    `);
+    
+    // Proyectos por mes (últimos 6 meses)
+    const proyectosPorMes = await pool.query(`
+      SELECT TO_CHAR(fechainicio, 'YYYY-MM') as mes, COUNT(*) as total
+      FROM proyectos
+      WHERE fechainicio >= CURRENT_DATE - INTERVAL '6 months'
+      GROUP BY TO_CHAR(fechainicio, 'YYYY-MM')
+      ORDER BY mes ASC
+    `);
+    
+    res.json({
+      totalProyectos: parseInt(totalProyectos.rows[0].total),
+      proyectosActivos: parseInt(proyectosActivos.rows[0].total),
+      proyectosFinalizados: parseInt(proyectosFinalizados.rows[0].total),
+      presupuestoTotal: parseFloat(presupuestoTotal.rows[0].total),
+      presupuestoUsado: parseFloat(gastosTotal.rows[0].total),
+      totalEmpleados: parseInt(totalEmpleados.rows[0].total),
+      totalClientes: parseInt(totalClientes.rows[0].total),
+      totalTareas: parseInt(totalTareas.rows[0].total),
+      proyectosProximos: proyectosProximos.rows,
+      ultimosProyectos: ultimosProyectos.rows,
+      presupuestoPorProyecto: presupuestoPorProyecto.rows,
+      proyectosPorMes: proyectosPorMes.rows
+    });
+  } catch (error) {
+    console.error('Error al obtener estadísticas:', error);
+    res.status(500).json({ error: 'Error al obtener estadísticas del dashboard' });
+  }
+});
+
+// Obtener datos para gráfico de presupuesto
+router.get('/dashboard/presupuesto-grafico', async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT 
+        p.nombreproyecto,
+        COALESCE(pr.monto, 0) as presupuesto,
+        COALESCE((SELECT SUM(g.monto) FROM gastos g WHERE g.proyectoid = p.proyectoid), 0) as gastado
+      FROM proyectos p
+      LEFT JOIN presupuestos pr ON pr.proyectoid = p.proyectoid
+      WHERE pr.monto IS NOT NULL
+      ORDER BY pr.monto DESC
+      LIMIT 8
+    `);
+    res.json(result.rows);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al obtener datos de presupuesto' });
+  }
+});

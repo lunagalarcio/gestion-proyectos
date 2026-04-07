@@ -14,6 +14,7 @@ import { ReportesComponent } from './components/reportes/reportes';
 import { TareasComponent } from './components/tareas/tareas';
 import { RecursosComponent } from './components/recursos/recursos';
 import { AsignacionesComponent } from './components/asignaciones/asignaciones';
+import { DashboardComponent } from './components/dashboard/dashboard';
 
 
 export const routes: Routes = [
@@ -29,6 +30,7 @@ export const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
+      { path: 'dashboard', component: DashboardComponent },
       { path: 'proyectos', component: ProyectosComponent },
       { path: 'presupuestos', component: PresupuestosComponent },
       { path: 'clientes', component: ClientesComponent },

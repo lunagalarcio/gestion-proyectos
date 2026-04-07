@@ -1,0 +1,267 @@
+<div class="dashboard-container">
+  <!-- Header -->
+  <div class="dashboard-header">
+    <div>
+      <h1 class="dashboard-title">Dashboard</h1>
+      <p class="dashboard-subtitle">Resumen de tu sistema de gestión</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn-secondary" (click)="cargarDatos()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/>
+          <path d="M21 3v5h-5"/>
+        </svg>
+        Actualizar
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="cargando" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Cargando estadísticas...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error && !cargando" class="error-container">
+    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="12" x2="12" y1="8" y2="12"/>
+      <line x1="12" x2="12.01" y1="16" y2="16"/>
+    </svg>
+    <p>{{ error }}</p>
+    <button class="btn-primary" (click)="cargarDatos()">Reintentar</button>
+  </div>
+
+  <!-- Content -->
+  <div *ngIf="!cargando && !error && estadisticas" class="dashboard-content">
+    
+    <!-- Métricas principales -->
+    <div class="metrics-grid">
+      <!-- Total Proyectos -->
+      <div class="metric-card">
+        <div class="metric-icon proyectos">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+        <div class="metric-info">
+          <span class="metric-value">{{ estadisticas.totalProyectos }}</span>
+          <span class="metric-label">Total Proyectos</span>
+        </div>
+        <div class="metric-trend positive">
+          <span class="metric-percentage">{{ proyectosActivosPorcentaje }}%</span>
+          <span class="metric-text">activos</span>
+        </div>
+      </div>
+
+      <!-- Proyectos Activos -->
+      <div class="metric-card">
+        <div class="metric-icon activos">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <div class="metric-info">
+          <span class="metric-value">{{ estadisticas.proyectosActivos }}</span>
+          <span class="metric-label">Proyectos Activos</span>
+        </div>
+        <div class="metric-badge activos">
+          <span>En curso</span>
+        </div>
+      </div>
+
+      <!-- Proyectos Finalizados -->
+      <div class="metric-card">
+        <div class="metric-icon finalizados">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M16 8l-4 4-4-4"/>
+            <path d="M12 16V8"/>
+          </svg>
+        </div>
+        <div class="metric-info">
+          <span class="metric-value">{{ estadisticas.proyectosFinalizados }}</span>
+          <span class="metric-label">Finalizados</span>
+        </div>
+        <div class="metric-badge finalizados">
+          <span>Completados</span>
+        </div>
+      </div>
+
+      <!-- Presupuesto Total -->
+      <div class="metric-card">
+        <div class="metric-icon presupuesto">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" x2="12" y1="2" y2="22"/>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </div>
+        <div class="metric-info">
+          <span class="metric-value">{{ formatCurrency(estadisticas.presupuestoTotal) }}</span>
+          <span class="metric-label">Presupuesto Total</span>
+        </div>
+      </div>
+
+      <!-- Presupuesto Usado -->
+      <div class="metric-card">
+        <div class="metric-icon usado">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h3v2h4v-4c1-.5 1.7-1 2-2h2v-4h-2c0-1-.5-1.5-2-2V5z"/>
+          </svg>
+        </div>
+        <div class="metric-info">
+          <span class="metric-value">{{ formatCurrency(estadisticas.presupuestoUsado) }}</span>
+          <span class="metric-label">Presupuesto Usado</span>
+        </div>
+        <div class="metric-progress">
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width.%]="porcentajeUsado"></div>
+          </div>
+          <span class="progress-text">{{ porcentajeUsado }}% usado</span>
+        </div>
+      </div>
+
+      <!-- Tareas -->
+      <div class="metric-card">
+        <div class="metric-icon tareas">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+          </svg>
+        </div>
+        <div class="metric-info">
+          <span class="metric-value">{{ estadisticas.totalTareas }}</span>
+          <span class="metric-label">Total Tareas</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Segunda fila: Stats adicionales + Gráficos -->
+    <div class="stats-grid">
+      <!-- Empleados y Clientes -->
+      <div class="mini-stats">
+        <div class="mini-stat">
+          <div class="mini-stat-value">{{ estadisticas.totalEmpleados }}</div>
+          <div class="mini-stat-label">Empleados</div>
+        </div>
+        <div class="mini-stat">
+          <div class="mini-stat-value">{{ estadisticas.totalClientes }}</div>
+          <div class="mini-stat-label">Clientes</div>
+        </div>
+        <div class="mini-stat">
+          <div class="mini-stat-value">{{ presupuestoRestante | number:'1.0-0' }}</div>
+          <div class="mini-stat-label">Presupuesto Disponible</div>
+        </div>
+      </div>
+
+      <!-- Proyectos Próximos a Vencer -->
+      <div class="card upcoming-card">
+        <div class="card-header">
+          <h3 class="card-title">Próximos a Vencer</h3>
+          <span class="badge warning">30 días</span>
+        </div>
+        <div class="upcoming-list" *ngIf="estadisticas.proyectosProximos.length > 0">
+          <div class="upcoming-item" *ngFor="let p of estadisticas.proyectosProximos">
+            <div class="upcoming-info">
+              <span class="upcoming-name">{{ p.nombreproyecto }}</span>
+              <span class="upcoming-date">{{ formatDate(p.fechafin) }}</span>
+            </div>
+            <div class="upcoming-days" [class.danger]="diasRestantes(p.fechafin) <= 7">
+              {{ diasRestantes(p.fechafin) }} días
+            </div>
+          </div>
+        </div>
+        <div class="empty-state small" *ngIf="estadisticas.proyectosProximos.length === 0">
+          <p>No hay proyectos próximos a vencer</p>
+        </div>
+      </div>
+
+      <!-- Últimos Proyectos -->
+      <div class="card recent-card">
+        <div class="card-header">
+          <h3 class="card-title">Últimos Proyectos</h3>
+        </div>
+        <div class="recent-list" *ngIf="estadisticas.ultimosProyectos.length > 0">
+          <div class="recent-item" *ngFor="let p of estadisticas.ultimosProyectos">
+            <div class="recent-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+              </svg>
+            </div>
+            <div class="recent-info">
+              <span class="recent-name">{{ p.nombreproyecto }}</span>
+              <span class="recent-client">{{ p.cliente }}</span>
+            </div>
+            <span class="recent-date">{{ formatDate(p.fechainicio) }}</span>
+          </div>
+        </div>
+        <div class="empty-state small" *ngIf="estadisticas.ultimosProyectos.length === 0">
+          <p>No hay proyectos registrados</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tercera fila: Barras visuales -->
+    <div class="charts-section">
+      <!-- Distribución de Proyectos -->
+      <div class="card chart-card">
+        <div class="card-header">
+          <h3 class="card-title">Distribución de Proyectos</h3>
+        </div>
+        <div class="bar-chart">
+          <div class="bar-item">
+            <div class="bar-label">Activos</div>
+            <div class="bar-track">
+              <div class="bar-fill activos" [style.width.%]="proyectosActivosPorcentaje"></div>
+            </div>
+            <div class="bar-value">{{ estadisticas.proyectosActivos }}</div>
+          </div>
+          <div class="bar-item">
+            <div class="bar-label">Finalizados</div>
+            <div class="bar-track">
+              <div class="bar-fill finalizados" [style.width.%]="100 - proyectosActivosPorcentaje"></div>
+            </div>
+            <div class="bar-value">{{ estadisticas.proyectosFinalizados }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Presupuesto -->
+      <div class="card chart-card">
+        <div class="card-header">
+          <h3 class="card-title">Presupuesto</h3>
+        </div>
+        <div class="budget-chart">
+          <div class="budget-ring">
+            <svg viewBox="0 0 36 36" class="circular-chart">
+              <path class="circle-bg"
+                d="M18 2.0845
+                  a 15.9155 15.9155 0 0 1 0 31.831
+                  a 15.9155 15.9155 0 0 1 0 -31.831"
+              />
+              <path class="circle-used"
+                d="M18 2.0845
+                  a 15.9155 15.9155 0 0 1 0 31.831
+                  a 15.9155 15.9155 0 0 1 0 -31.831"
+                [attr.stroke-dasharray]="porcentajeUsado + ', 100'"
+              />
+            </svg>
+            <div class="budget-percentage">{{ porcentajeUsado }}%</div>
+          </div>
+          <div class="budget-legend">
+            <div class="legend-item">
+              <span class="legend-dot used"></span>
+              <span>Usado: {{ formatCurrency(estadisticas.presupuestoUsado) }}</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot available"></span>
+              <span>Disponible: {{ formatCurrency(presupuestoRestante) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
