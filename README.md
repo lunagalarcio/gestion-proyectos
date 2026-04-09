@@ -1,8 +1,6 @@
 
 # Sistema de Gestión de Proyectos
 
-## Descripción
-
 Sistema integral de gestión de proyectos, recursos, empleados y clientes con frontend Angular moderno y backend Node.js/Express.
 
 ## Tech Stack
@@ -160,11 +158,12 @@ node index.js      # Iniciar servidor API
 4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
 5. Crear Pull Request
 
-## Licencia
+# Licencia
 
 MIT License
+
 =======
-# Gestión de Proyectos
+# Gestión de Proyectos API REST
 
 API REST para la gestión de proyectos, tareas, trabajadores y clientes.
 
