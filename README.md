@@ -1,4 +1,4 @@
-# New Management - Sistema de Gestión de Proyectos
+# Sistema de Gestión de Proyectos
 
 ## Descripción
 
