@@ -1,3 +1,4 @@
+
 # Sistema de Gestión de Proyectos
 
 ## Descripción
@@ -162,3 +163,59 @@ node index.js      # Iniciar servidor API
 ## Licencia
 
 MIT License
+=======
+# Gestión de Proyectos
+
+API REST para la gestión de proyectos, tareas, trabajadores y clientes.
+
+## Tecnologías
+
+- **Backend**: Express.js (Node.js)
+- **Base de datos**: PostgreSQL
+- **Autenticación**: JWT (JSON Web Token)
+- **Encriptación**: bcryptjs
+
+## Instalación
+
+```bash
+npm install
+```
+
+## Configuración
+
+Crear archivo `.env` con las variables:
+
+```
+PORT=3000
+DB_HOST=localhost
+DB_USER=postgres
+DB_PASSWORD=tu_password
+DB_NAME=gestion_proyectos
+DB_PORT=5432
+JWT_SECRET=tu_secreto
+```
+
+## Ejecución
+
+```bash
+# Desarrollo
+npm run dev
+
+# Producción
+npm start
+```
+
+## Endpoints
+
+### Usuarios
+- `POST /api/users/register` - Registrar usuario
+- `POST /api/users/login` - Iniciar sesión
+- `GET /api/users` - Listar usuarios
+- `GET /api/users/:id` - Obtener usuario
+- `PUT /api/users/:id` - Actualizar usuario
+- `DELETE /api/users/:id` - Eliminar usuario
+
+## Licencia
+
+ISC
+>>>>>>> bf58083 (Ajuste en botones de eliminar)

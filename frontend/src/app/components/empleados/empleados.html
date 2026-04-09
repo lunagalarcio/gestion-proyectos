@@ -29,9 +29,6 @@
           <td>{{ e.nombredepartamento || 'Sin asignar' }}</td>
           <td>
             <button class="btn-danger btn-sm" (click)="eliminarEmpleado(e.empleadoid)">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-              </svg>
               Eliminar
             </button>
           </td>
@@ -70,9 +67,9 @@
         <div class="form-row">
           <div class="form-group">
             <label class="field-label">Nombre del departamento</label>
-            <input 
-              type="text" 
-              class="input-field" 
+            <input
+              type="text"
+              class="input-field"
               placeholder="Nombre del nuevo departamento"
               [(ngModel)]="nuevoDepartamento.nombredepartamento"
               name="nombredepartamento"
@@ -115,9 +112,6 @@
           <td>{{ d.jefedepartamento }}</td>
           <td>
             <button class="btn-danger btn-sm" (click)="eliminarDepartamento(d.departamentoid)">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-              </svg>
               Eliminar
             </button>
           </td>
