@@ -168,10 +168,10 @@ MIT License
 ![Landing Page](imagesREADME/1.png)
 
 ### Inicio de Sesión
-![Login](imagesREADME/2.png)
+![Login](imagesREADME/3.png)
 
 ### Registro de Usuario
-![Registro](imagesREADME/3.png)
+![Registro](imagesREADME/2.png)
 
 ### Dashboard
 ![Dashboard](imagesREADME/4.png)
