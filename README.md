@@ -162,59 +162,43 @@ node index.js      # Iniciar servidor API
 
 MIT License
 
-=======
-# Gestión de Proyectos API REST
+## Capturas de Pantalla
 
-API REST para la gestión de proyectos, tareas, trabajadores y clientes.
+### Landing Page
+![Landing Page](imagesREADME/1.png)
 
-## Tecnologías
+### Inicio de Sesión
+![Login](imagesREADME/2.png)
 
-- **Backend**: Express.js (Node.js)
-- **Base de datos**: PostgreSQL
-- **Autenticación**: JWT (JSON Web Token)
-- **Encriptación**: bcryptjs
+### Registro de Usuario
+![Registro](imagesREADME/3.png)
 
-## Instalación
+### Dashboard
+![Dashboard](imagesREADME/4.png)
 
-```bash
-npm install
-```
+### Proyectos
+![Proyectos](imagesREADME/5.png)
 
-## Configuración
+### Empleados
+![Empleados](imagesREADME/6.png)
 
-Crear archivo `.env` con las variables:
+### Clientes
+![Clientes](imagesREADME/7.png)
 
-```
-PORT=3000
-DB_HOST=localhost
-DB_USER=postgres
-DB_PASSWORD=tu_password
-DB_NAME=gestion_proyectos
-DB_PORT=5432
-JWT_SECRET=tu_secreto
-```
+### Tareas
+![Tareas](imagesREADME/8.png)
 
-## Ejecución
+### Recursos
+![Recursos](imagesREADME/9.png)
 
-```bash
-# Desarrollo
-npm run dev
+### Presupuestos
+![Presupuestos](imagesREADME/10.png)
 
-# Producción
-npm start
-```
+### Gastos
+![Gastos](imagesREADME/11.png)
 
-## Endpoints
+### Reportes
+![Reportes](imagesREADME/12.png)
 
-### Usuarios
-- `POST /api/users/register` - Registrar usuario
-- `POST /api/users/login` - Iniciar sesión
-- `GET /api/users` - Listar usuarios
-- `GET /api/users/:id` - Obtener usuario
-- `PUT /api/users/:id` - Actualizar usuario
-- `DELETE /api/users/:id` - Eliminar usuario
-
-## Licencia
-
-ISC
->>>>>>> bf58083 (Ajuste en botones de eliminar)
+### Asignaciones
+![Asignaciones](imagesREADME/13.png)
